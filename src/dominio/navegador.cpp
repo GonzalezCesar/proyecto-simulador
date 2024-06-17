@@ -1,5 +1,5 @@
-#include "../include/navegador.hpp"
-#include "../include/utilidades.hpp"
+#include "headers/navegador.hpp"
+#include "headers/utilidades.hpp"
 #include <iostream>
 #include <list>
 
@@ -36,8 +36,8 @@ bool Navegador::isHome() { // Confirma que el navegador se encuentra en la
 
 bool Navegador::hayPaginaSiguiente() { // Confirma si hay página a la que
                                        // avanzar
-  if (paginaActual->url == "Home") // Verdadero: Sí, las hay
-    return false;                  // Falso: No, no las hay
+  if (paginaActual->url == "Home")     // Verdadero: Sí, las hay
+    return false;                      // Falso: No, no las hay
   if (paginaActual != historial.getInicioHistorial())
     return true;
   return false;

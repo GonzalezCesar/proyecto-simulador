@@ -1,4 +1,5 @@
-#include "../include/historial.hpp"
+#include "favoritos.hpp"
+#include "historial.hpp"
 #include <iostream>
 #include <list>
 using std::list;

@@ -1,4 +1,4 @@
-#include "item_historial.hpp"
+#include "../../estructuras/item_historial.hpp"
 #include <iostream>
 #include <list>
 #include <stack>

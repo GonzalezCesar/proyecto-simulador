@@ -1,6 +1,6 @@
-#include "../include/historial.hpp"
-#include "../include/item_historial.hpp"
-#include "../include/utilidades.hpp"
+#include "headers/historial.hpp"
+#include "../estructuras/item_historial.hpp"
+#include "headers/utilidades.hpp"
 #include <iostream>
 #include <list>
 
