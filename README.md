@@ -1,4 +1,4 @@
-# Simulador de Navegador Web
+# Simulador de Navegador Web 
 
 Proyecto para estructura de datos con el objetivo de emular el funcionamiento básico de un navegador web.
 
