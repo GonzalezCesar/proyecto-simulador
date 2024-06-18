@@ -1,5 +1,6 @@
 *.out
 *.exe
+test
 build
 CMakeLists.txt
 favoritos_navegador.html
