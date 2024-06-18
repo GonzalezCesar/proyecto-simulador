@@ -64,7 +64,9 @@ string ManejadorHTML::crearComentario(string comentario) {
   return comentario;
 }
 
-vector<archivo> ManejadorHTML::getOrdenadoPorNivel() {
+vector<archivo>
+ManejadorHTML::getOrdenadoPorNivel() { // Ordena las carpetas y páginas de menor
+                                       // a mayor nivel
   vector<archivo> archivosOrdenados;
   list<archivo> listaArchivos = *archivos;
   vector<int> niveles = getNivelesUnicos(listaArchivos);
@@ -103,7 +105,10 @@ string ManejadorHTML::removerIdentacion(string linea) {
   return result;
 }
 
-void ManejadorHTML::insertarEnRuta(string &html, string elemento, string ruta) {
+void ManejadorHTML::insertarEnRuta(
+    string &html, string elemento,
+    string
+        ruta) { // Inserta el elemento de favoritos en la línea que corresponde
   bool check = false;
   vector<string> lineasHTML = getLineas(html);
   if (lineasHTML.size() == 0) {
@@ -129,15 +134,9 @@ void ManejadorHTML::insertarEnRuta(string &html, string elemento, string ruta) {
   }
 }
 
-int ManejadorHTML::getLineaComentario(vector<string> lineas) {
-  for (int i = 0; i < lineas.size(); i++) {
-    if (contieneSubsString(lineas[i], "<!--", ' '))
-      return i;
-  }
-  return -1;
-}
-
-string ManejadorHTML::getNombreDeArchivo(string comentario) {
+string ManejadorHTML::getNombreDeArchivo(
+    string comentario) { // Extrae el nombre de una carpeta apartir de un
+                         // comentario HTML
   string rutaPrevia = getRutaDeComentario(comentario);
   vector<string> comentarioSegmentado = split(rutaPrevia, '/');
   int size = comentarioSegmentado.size();
@@ -145,7 +144,9 @@ string ManejadorHTML::getNombreDeArchivo(string comentario) {
   return nombre;
 }
 
-string ManejadorHTML::getRutaDeComentario(string comentario) {
+string ManejadorHTML::getRutaDeComentario(
+    string comentario) { // Remueve la simbología del comentario en HTML y
+                         // retorna el contenido
   string comentarioSinEspacios = removerIdentacion(comentario);
   vector<string> vectorComentario = split(comentarioSinEspacios, ' ');
   vectorComentario.pop_back();

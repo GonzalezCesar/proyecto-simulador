@@ -81,19 +81,18 @@ void Favoritos::copiarQueue(queue<archivo> copia) {
     copia.pop();
   }
 }
-
+//--------------------------------------------Remover luego
 void Favoritos::printPaginasEliminadas() {
   queue<archivo> copiaPaginasEliminadas = paginasEliminadas;
-
   for (int i = 0; i < paginasEliminadas.size(); i++) {
-    cout << copiaPaginasEliminadas.front().nombre << endl;
+    cout << i + 1 << ". " << copiaPaginasEliminadas.front().nombre << endl;
     copiaPaginasEliminadas.pop();
   }
 }
 
 void Favoritos::actualizarPaginasBorradas(archivo pagina) {
   paginasEliminadas.push(pagina);
-  if (paginasEliminadas.size() == 5) {
+  if (paginasEliminadas.size() == 6) {
     paginasEliminadas.pop();
   }
 }
@@ -114,7 +113,8 @@ void Favoritos::restaurarPagina(string ruta) {
   copiarQueue(copiaPaginasEliminadas);
 }
 
-archivo Favoritos::getArchivoDeRuta(string ruta) {
+archivo Favoritos::getArchivoDeRuta(
+    string ruta) { // Retorna archivo a partir de una ruta
   archivo a;
   for (auto archivo : archivos) {
     if (archivo.ruta == ruta) {
@@ -137,25 +137,36 @@ void Favoritos::printContenidoEnCarpeta(string ruta) {
 
     if ((esDescendiente(nombreCarpeta, archivo->ruta)) &&
         (archivo->ruta != ruta))
+
       printArchivo(getArchivoDeIterador(archivo));
   }
 }
 
 void Favoritos::printCarpetas() {
+  int conteo = 1;
   for (list<archivo>::iterator iteradorArchivo = archivos.begin();
        iteradorArchivo != archivos.end(); iteradorArchivo++) {
     archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
-    if (esCarpeta(elementoArchivo))
-      printArchivo(elementoArchivo);
+
+    if (esCarpeta(elementoArchivo)) {
+      printArchivoNumerado(elementoArchivo, conteo);
+      conteo++;
+    }
   }
 };
 
 void Favoritos::printPaginas() {
+  int conteo = 1;
+
   for (list<archivo>::iterator iteradorArchivo = archivos.begin();
        iteradorArchivo != archivos.end(); iteradorArchivo++) {
+
     archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
-    if (esPagina(elementoArchivo))
-      printArchivo(elementoArchivo);
+
+    if (esPagina(elementoArchivo)) {
+      printArchivoNumerado(elementoArchivo, conteo);
+      conteo++;
+    }
   }
 };
 
@@ -164,6 +175,12 @@ void Favoritos::printArchivo(archivo a) {
     cout << " + " << a.ruta << endl;
   else
     cout << a.ruta << endl;
+}
+void Favoritos::printArchivoNumerado(archivo a, int numero) {
+  if (esCarpeta(a))
+    cout << numero << ". + " << a.ruta << endl;
+  else
+    cout << numero << ". " << a.ruta << endl;
 }
 
 //_---------------------------------------------------------------------------------
@@ -174,12 +191,11 @@ void Favoritos::eliminarContenidoEnCarpeta(string ruta) {
 
   auto iteradorArchivo = archivos.begin();
   while (iteradorArchivo != archivos.end()) {
-    // Check if descendant and remove safely
+
     if (esDescendiente(nombreCarpeta, iteradorArchivo->ruta)) {
-      iteradorArchivo =
-          archivos.erase(iteradorArchivo); // Advance iterator after erase
+      iteradorArchivo = archivos.erase(iteradorArchivo);
     } else {
-      ++iteradorArchivo; // Move to the next element if not a descendant
+      ++iteradorArchivo;
     }
   }
 }
@@ -197,132 +213,60 @@ void Favoritos::eliminarArchivo(string ruta) {
   }
 }
 
-// vector<archivo> Favoritos::getOrdenadoPorNivel() {
-//   vector<archivo> archivosOrdenados;
-//   vector<int> niveles = getNivelesUnicos(archivos);
-//
-//   for (int i = 0; i < niveles.size(); i++) {
-//     for (auto iteradorArchivo : archivos) {
-//       int nivel = getNivel(iteradorArchivo.ruta, '/');
-//       if ((nivel == niveles[i]) && (esCarpeta(iteradorArchivo))) {
-//         archivosOrdenados.push_back(iteradorArchivo);
-//       }
-//     }
-//   }
-//   for (int i = 0; i < niveles.size(); i++) {
-//     for (auto iteradorArchivo : archivos) {
-//       int nivel = getNivel(iteradorArchivo.ruta, '/');
-//       if ((nivel == niveles[i]) && (esPagina(iteradorArchivo))) {
-//         archivosOrdenados.push_back(iteradorArchivo);
-//       }
-//     }
-//   }
-//   return archivosOrdenados;
-// }
+string Favoritos::getPaginaURL(string paginaRuta) {
+  string url;
+  for (auto iteradorArchivo : archivos) {
+    if ((paginaRuta == iteradorArchivo.ruta) && (esPagina(iteradorArchivo))) {
+      string url = split(iteradorArchivo.tipo, '-')[1];
+      return url;
+    }
+  }
+  return url;
+}
 
-// string Favoritos::crearComentario(string comentario) {
-//   comentario = "<!-- " + comentario + " -->";
-//   return comentario;
-// }
-//
-// string Favoritos::generarListasHTML() {
-//   vector<archivo> archivosOrdenados = getOrdenadoPorNivel();
-//   string file;
-//   for (auto iteradorArchivo : archivosOrdenados) {
-//     if (esCarpeta(iteradorArchivo)) {
-//       string elemento = formatearCarpeta(iteradorArchivo) + "\n";
-//       insertarEnRuta(file, elemento, iteradorArchivo.ruta);
-//
-//     } else if (esPagina(iteradorArchivo)) {
-//       string elemento = formatearPagina(iteradorArchivo) + "\n";
-//       insertarEnRuta(file, elemento, iteradorArchivo.ruta);
-//     }
-//   }
-//   return file;
-// }
-//
-// string Favoritos::formatearCarpeta(archivo carpeta) {
-//   int nivel = getNivel(carpeta.ruta, '/');
-//   string identacion = getNivelado(nivel);
-//   string comentario = crearComentario(carpeta.ruta);
-//   string formatoCarpeta = identacion + "<ul>\n" + identacion + "<li>" +
-//                           carpeta.nombre + "\n" + identacion + comentario +
-//                           "\n" + identacion + "</>\n" + identacion +
-//                           "<\\ul>";
-//   return formatoCarpeta;
-// }
-//
-// string Favoritos::formatearPagina(archivo pagina) {
-//   int nivel = getNivel(pagina.ruta, '/');
-//   string identacion = getNivelado(nivel);
-//   string formatoPagina = identacion + "<li>" + pagina.nombre + "</>";
-//   return formatoPagina;
-// }
-// string Favoritos::getRutaDeComentario(string comentario) {
-//   string comentarioSinEspacios = removerIdentacion(comentario);
-//   vector<string> vectorComentario = split(comentarioSinEspacios, ' ');
-//   return vectorComentario[1];
-// }
-//
-// string Favoritos::removerIdentacion(string linea) {
-//   string result;
-//   bool check = false;
-//   for (int i = 0; i < linea.length(); i++) {
-//
-//     if (check)
-//       result += linea[i];
-//     else if (linea[i] != ' ') {
-//       result += linea[i];
-//       check = true;
-//     }
-//   }
-//   return result;
-// }
-//
-// void Favoritos::insertarEnRuta(string &html, string elemento, string ruta) {
-//   bool check = false;
-//   vector<string> lineasHTML = getLineas(html);
-//   if (lineasHTML.size() == 0) {
-//     html += elemento;
-//     return;
-//   }
-//   for (int i = 0; i < lineasHTML.size(); i++) {
-//     string linea = removerIdentacion(lineasHTML[i]);
-//     if (contieneSubsString(lineasHTML[i], "<!--", ' ')) {
-//       string nombreCarpeta = getNombreDeArchivo(lineasHTML[i]);
-//       if (esDescendiente(nombreCarpeta, ruta)) {
-//         lineasHTML.insert(lineasHTML.begin() + i, elemento);
-//         check = true;
-//         break;
-//       }
-//     }
-//   }
-//
-//   if (!check)
-//     html += elemento;
-//   else {
-//     html = unirLineas(lineasHTML);
-//   }
-// }
-//
-// int Favoritos::getLineaComentario(vector<string> lineas) {
-//   for (int i = 0; i < lineas.size(); i++) {
-//     if (contieneSubsString(lineas[i], "<!--", ' '))
-//       return i;
-//   }
-//   return -1;
-// }
-//
-// string Favoritos::getNombreDeArchivo(string comentario) {
-//   string rutaPrevia = getRutaDeComentario(comentario);
-//   vector<string> comentarioSegmentado = split(rutaPrevia, '/');
-//   int size = comentarioSegmentado.size();
-//   string nombre = comentarioSegmentado[size - 1];
-//   return nombre;
-// }
-//
-// string Favoritos::getHTML() {
-//   string html;
-//   string listas = generarListasHTML();
-//   return html;
-// }
+string Favoritos::getRutaCarpeta(int indice) {
+  int conteo = 1;
+  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
+       iteradorArchivo != archivos.end(); iteradorArchivo++) {
+    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
+
+    if (esCarpeta(elementoArchivo)) {
+      if (conteo == indice) {
+        return elementoArchivo.ruta;
+      }
+      conteo++;
+    }
+  }
+  return "";
+}
+
+string Favoritos::getRutaPagina(int indice) {
+  int conteo = 1;
+  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
+       iteradorArchivo != archivos.end(); iteradorArchivo++) {
+    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
+
+    if (esPagina(elementoArchivo)) {
+      if (conteo == indice) {
+        return elementoArchivo.ruta;
+      }
+      conteo++;
+    }
+  }
+  return "";
+}
+
+string Favoritos::getRutaPaginaEliminada(int indice) {
+  int conteo = 1;
+  queue<archivo> copiaEliminados = paginasEliminadas;
+  while (!copiaEliminados.empty()) {
+
+    archivo elementoArchivo = copiaEliminados.front();
+    if (conteo == indice) {
+      return elementoArchivo.ruta;
+    }
+    conteo++;
+    copiaEliminados.pop();
+  }
+  return "";
+}

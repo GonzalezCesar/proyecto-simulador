@@ -24,7 +24,6 @@ public:
   string getRutaDeComentario(string comentario);
   string removerIdentacion(string linea);
   void insertarEnRuta(string &html, string elemento, string ruta);
-  int getLineaComentario(vector<string> lineas);
   string getNombreDeArchivo(string comentario);
 };
 

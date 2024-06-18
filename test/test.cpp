@@ -17,7 +17,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-void menuFavoritos(Favoritos *favoritos);
+void menuFavoritos(Favoritos *favoritos, Navegador *n);
 void test_1(); // Prueba de visita páginas con fechas distintas.
 void test_2(); // Prueba de de funcionamiento de navegador junto a historial.
 void test_3(); // Prueba de guardado en favoritos
@@ -67,7 +67,7 @@ void pause() {
   cout << "\nPresione enter para continuar.";
   getchar();
 }
-
+//---------------------------------------------------------------MENU
 void menu() {
   Navegador navegador;
   Favoritos favoritos;
@@ -119,7 +119,7 @@ void menu() {
       break;
     }
     case 6: {
-      menuFavoritos(&favoritos);
+      menuFavoritos(&favoritos, &navegador);
       break;
     }
     case 7:
@@ -130,21 +130,23 @@ void menu() {
 
 void printMenuFavoritos() {
 
-  cout << "1. Organizar pagina." << endl;
-  cout << "2. Crear carpeta." << endl;
-  cout << "3. Eliminar pagina." << endl;
-  cout << "4. Eliminar carpeta." << endl;
-  cout << "5. Restaurar favorito." << endl;
-  cout << "6. Ver últimos favoritos eliminados." << endl;
-  cout << "7. Ver HTML." << endl;
-  cout << "8. Salir." << endl;
+  cout << "1. Ir a pagina." << endl;
+  cout << "2. Organizar pagina." << endl;
+  cout << "3. Crear carpeta." << endl;
+  cout << "4. Eliminar pagina." << endl;
+  cout << "5. Eliminar carpeta." << endl;
+  cout << "6. Restaurar favorito." << endl;
+  cout << "7. Ver últimos favoritos eliminados." << endl;
+  cout << "8. Ver HTML." << endl;
+  cout << "9. Salir." << endl;
 }
-
-void menuFavoritos(Favoritos *b) {
+//-----------------------------------------------------------------MENU
+//FAVORITOS
+void menuFavoritos(Favoritos *b, Navegador *n) {
   ManejadorHTML h;
   int opt = 0;
 
-  while (opt != 8) {
+  while (opt != 9) {
     system("clear");
     printTitle("DIRECTORIOS");
     b->printFavoritos();
@@ -156,55 +158,86 @@ void menuFavoritos(Favoritos *b) {
     system("clear");
     switch (opt) {
     case 1: {
-      printTitle("ORGANIZACIÓN DE PÁGINA");
+      printTitle("NAVEGAR A FAVORITO");
       b->printPaginas();
       cout << endl;
       cin.ignore();
-      string nombre = getText("Ingrese el nombre de la pagina");
-      b->printCarpetas();
-      cout << endl;
-      string ruta = getText("Ingrese la ruta  de la carpeta");
-      b->modificarRutaPagina(nombre, ruta);
+      string ruta = getText("Ingrese la ruta de la pagina");
+      string url = b->getPaginaURL(ruta);
+      n->irNuevaPagina(url);
+      opt = 9;
       break;
     }
     case 2: {
+      printTitle("ORGANIZACIÓN DE PÁGINA");
+      b->printPaginas();
+      cout << endl;
+      cout << "Seleccione la pagina a organizar." << endl;
+      cin.ignore();
+      int indice = getInput();
+      string ruta = b->getRutaPagina(indice);
+      string nombre = b->getArchivoDeRuta(ruta).nombre;
+      b->printCarpetas();
+      cout << endl;
+      cout << "Seleccione la carpeta contenedora." << endl;
+      int indice2 = getInput();
+      string ruta2 = b->getRutaCarpeta(indice2);
+      b->modificarRutaPagina(nombre, ruta2);
+      break;
+    }
+    case 3: {
+      printTitle("CREACIÓN DE CARPETA");
+
+      cout << "Para crear subcarpetas:" << endl;
+      cout << "--> ruta_de_carpeta/nombre_de_carpeta_nueva" << endl;
+
+      b->printCarpetas();
       cin.ignore();
       b->crearCarpeta(getText("Introduzca el nombre de la carpeta"));
       break;
     }
-    case 3: {
+    case 4: {
       printTitle("ELIMINAR PAGINA");
+      b->printPaginas();
       cin.ignore();
-      string ruta = getText("Ingrese la ruta de la pagina");
+      cout << "Seleccione la pagina a eliminar" << endl;
+      int indice = getInput();
+      string ruta = b->getRutaPagina(indice);
       b->eliminarPagina(ruta, false);
       break;
     }
-    case 4: {
+    case 5: {
       printTitle("ELIMINAR CARPETA");
       b->printCarpetas();
       cin.ignore();
-      string ruta = getText("Ingrese la ruta de la carpeta");
+      int indice = getInput();
+      string ruta = b->getRutaCarpeta(indice);
       cout << "\nLos siguientes elementos serán borrados: " << endl;
       b->printContenidoEnCarpeta(ruta);
       cin.get();
       pause();
       b->eliminarContenidoEnCarpeta(ruta);
-    } break;
-    case 5: {
+      break;
+    }
+    case 6: {
       printTitle("RESTAURAR PAGINA");
       b->printPaginasEliminadas();
       cout << "----------------------------------" << endl;
       cin.ignore();
-      string ruta = getText("Ingrese la ruta de la pagina");
+      cout << "Seleccione la pagina a restaurar" << endl;
+      int indice = getInput();
+      string ruta = b->getRutaPaginaEliminada(indice);
       b->restaurarPagina(ruta);
+      break;
     }
-    case 6: {
+    case 7: {
       printTitle("ULTIMAS PAGINAS ELIMINADAS");
       b->printPaginasEliminadas();
       cin.get();
       pause();
+      break;
     }
-    case 7: {
+    case 8: {
       printTitle("VISTA HTML");
       h.setArchivos(*b->getArchivos());
       string html = h.getHTML();
@@ -214,7 +247,7 @@ void menuFavoritos(Favoritos *b) {
       pause();
       break;
     }
-    case 8:
+    case 9:
       break;
     }
   }
