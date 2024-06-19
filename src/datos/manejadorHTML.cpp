@@ -23,7 +23,9 @@ void ManejadorHTML::setArchivos(list<archivo> listaArchivos) {
   archivos = listaArchivos;
 }
 
-string ManejadorHTML::generarListasHTML() {
+string ManejadorHTML::generarListasHTML() { // Restorna un strings con las
+                                            // listas de favoritos en HTML
+                                            // (únicamente las listas en HTML)
   vector<archivo> archivosOrdenados = getOrdenadoPorNivel();
   string file;
   for (auto iteradorArchivo : archivosOrdenados) {
@@ -39,7 +41,9 @@ string ManejadorHTML::generarListasHTML() {
   return file;
 }
 
-string ManejadorHTML::formatearCarpeta(archivo carpeta) {
+string ManejadorHTML::formatearCarpeta(
+    archivo carpeta) { // Formatea un struct archivo a lista HTML, como es una
+                       // carpeta contenrá otros elementos
   int nivel = getNivel(carpeta.ruta, '/');
   string identacion = getNivelado(nivel);
   string comentario = crearComentario(carpeta.ruta);
@@ -49,7 +53,9 @@ string ManejadorHTML::formatearCarpeta(archivo carpeta) {
   return formatoCarpeta;
 }
 
-string ManejadorHTML::formatearPagina(archivo pagina) {
+string ManejadorHTML::formatearPagina(
+    archivo pagina) { // Formatea un struct archivo a HTML, es elemento de
+                      // alguna carpeta
   int nivel = getNivel(pagina.ruta, '/');
   string identacion = getNivelado(nivel);
   string url = split(pagina.tipo, '-')[1];

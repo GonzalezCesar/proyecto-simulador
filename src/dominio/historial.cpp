@@ -28,9 +28,9 @@ void Historial::agregarPagina(string url) {
 void Historial::setHistorial(list<ItemHistorial> paginas) {
   paginas_registradas = paginas;
 }
-void Historial::addTesting(ItemHistorial pagina) { // Ignorar, remover luego
-  paginas_registradas.push_front(pagina);
-}
+// void Historial::addTesting(ItemHistorial pagina) { // Ignorar, remover luego
+//   paginas_registradas.push_front(pagina);
+// }
 
 list<ItemHistorial>::iterator
 Historial::getInicioHistorial() { // Devuelve un iterador al principio de la

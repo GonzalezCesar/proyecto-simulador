@@ -42,16 +42,16 @@ void Favoritos::modificarRutaPagina(string pagina, string rutaCarpeta) {
   }
 }
 
-string Favoritos::getCarpetaPadre(string ruta) {
-  vector<string> rutaSegmentada = split(ruta, '/');
-  string rutaCarpetaPadre = rutaSegmentada[0];
-  for (int i = 0; i < rutaSegmentada.size() - 1; i++) {
-    rutaCarpetaPadre += rutaSegmentada[i];
-    if (i + 1 != rutaSegmentada.size() - 1)
-      rutaCarpetaPadre += '/';
-  }
-  return rutaCarpetaPadre;
-}
+// string Favoritos::getCarpetaPadre(string ruta) {
+//   vector<string> rutaSegmentada = split(ruta, '/');
+//   string rutaCarpetaPadre = rutaSegmentada[0];
+//   for (int i = 0; i < rutaSegmentada.size() - 1; i++) {
+//     rutaCarpetaPadre += rutaSegmentada[i];
+//     if (i + 1 != rutaSegmentada.size() - 1)
+//       rutaCarpetaPadre += '/';
+//   }
+//   return rutaCarpetaPadre;
+// }
 
 bool Favoritos::existeCarpeta(string ruta) {
   for (auto archivo : archivos) {
@@ -77,14 +77,18 @@ void Favoritos::eliminarPagina(string ruta, bool eliminadoPermanente) {
   }
 }
 
-void Favoritos::copiarQueue(queue<archivo> copia) { // No se está utilizando(?)
-  int size = copia.size();
-  for (int i = 0; !copia.empty(); i++) {
-    paginasEliminadas.push(copia.front());
-    copia.pop();
-  }
-}
-void Favoritos::actualizarPaginasBorradas(archivo pagina) {
+// void Favoritos::copiarQueue(queue<archivo> copia) { // No se está
+// utilizando(?)
+//   int size = copia.size();
+//   for (int i = 0; !copia.empty(); i++) {
+//     paginasEliminadas.push(copia.front());
+//     copia.pop();
+//   }
+// }
+
+void Favoritos::actualizarPaginasBorradas(
+    archivo pagina) { // Elimina permamnentemente la primera página
+  // eliminada si hay 6 elementos en las páginas eliminadas.
   paginasEliminadas.push(pagina);
   if (paginasEliminadas.size() == 6) {
     paginasEliminadas.pop();
@@ -110,7 +114,9 @@ archivo Favoritos::getArchivoDeRuta(
   return a;
 }
 
-void Favoritos::eliminarContenidoEnCarpeta(string ruta) {
+void Favoritos::eliminarContenidoEnCarpeta(
+    string ruta) { // Elimina permanentemente todo el contenido asociado a una
+                   // carpeta
   vector<string> rutaSegmentada = split(ruta, '/');
   string nombreCarpeta = rutaSegmentada[rutaSegmentada.size() - 1];
 

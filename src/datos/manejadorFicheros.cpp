@@ -22,7 +22,10 @@ void guardarEnFichero(string nombreFichero, string contenido) {
 
 string archivoACSV(archivo a) { return a.ruta + "," + a.nombre + "," + a.tipo; }
 
-string generarCSVArchivos(list<archivo> paginasEliminadas) {
+string generarCSVArchivos(
+    list<archivo> paginasEliminadas) { // Genera un string con el contenido a
+                                       // guardar en el csv, usado para guardar
+                                       // las páginas en favoritos
   string csv;
   for (auto pagina : paginasEliminadas) {
     csv += archivoACSV(pagina) + "\n";
@@ -30,7 +33,10 @@ string generarCSVArchivos(list<archivo> paginasEliminadas) {
   return csv;
 }
 
-string generarCSVArchivos(queue<archivo> paginasEliminadas) {
+string generarCSVArchivos(
+    queue<archivo> paginasEliminadas) { // Genera un string con el contenido a
+                                        // guardar en el csv, utilizado para las
+                                        // páginas eliminadas
   string csv;
   while (!paginasEliminadas.empty()) {
     csv += archivoACSV(paginasEliminadas.front()) + "\n";
@@ -43,7 +49,9 @@ void guardarFavoritos(list<archivo> paginas) {}
 
 string getLineaFichero();
 
-list<archivo> cargarCSVArchivos(string nombreFichero) {
+list<archivo> cargarCSVArchivos(
+    string nombreFichero) { // Carga los archivos de un fichero csv al programa
+                            // en una lista de tipo archivo
   list<archivo> archivos;
   string linea;
   ifstream fichero(nombreFichero);
@@ -55,7 +63,9 @@ list<archivo> cargarCSVArchivos(string nombreFichero) {
   return archivos;
 }
 
-queue<archivo> cargarPaginasEliminadas() {
+queue<archivo>
+cargarPaginasEliminadas() { // Carga las páginas  eliminadas guardadas en el
+                            // .csv, retorna una cola con los elementos.
   queue<archivo> archivos;
   string linea;
   ifstream fichero("favoritos_eliminados_temp.csv");
@@ -66,14 +76,9 @@ queue<archivo> cargarPaginasEliminadas() {
   return archivos;
 }
 
-archivo deCSVAArchivo(string lineaCSV) {
+archivo deCSVAArchivo(
+    string lineaCSV) { // Convierte una entrada del csv a formato archivo
   vector<string> lineaSegmentada = split(lineaCSV, ',');
   archivo a{lineaSegmentada[1], lineaSegmentada[0], lineaSegmentada[2]};
   return a;
 }
-
-// list<archivo> cargarArchivosCSV(string archvo) {}
-
-// list<ItemHistorial>
-// list<archivo>
-// queue<archivo>

@@ -46,7 +46,7 @@ MinGW32-make navc
 - [x] Favoritos (Bookmarks).
 	- [x] Registro de páginas en favoritos.
     - [x] Organización en directorios.
-    - [ ] Registro en ficheros.
+    - [x] Registro en ficheros.
 	- [x] Borrado de favoritos.
     - [x] Recuperación de los últimos 5 favoritos borrados.
 	- [x] Exportar favoritos a un archivo html.
