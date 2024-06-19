@@ -9,7 +9,7 @@ Proyecto para estructura de datos con el objetivo de emular el funcionamiento b√
 ```sh
 git clone https://github.com/GonzalezCesar/proyecto-simulador.git
 ```
-1. Estando en el directorio del repositorio, cambiar al directorio `test`.
+1. Estando en el directorio del repositorio, cambiar al directorio `build`.
 
 ```sh
 cd build

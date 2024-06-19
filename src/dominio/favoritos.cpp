@@ -1,8 +1,6 @@
 #include "headers/favoritos.hpp"
 #include "../estructuras/archivo.hpp"
 #include "headers/utilidades.hpp"
-#include <algorithm>
-#include <codecvt>
 #include <iostream>
 
 using std::cout;
@@ -93,20 +91,9 @@ void Favoritos::actualizarPaginasBorradas(archivo pagina) {
   }
 }
 
-void Favoritos::restaurarPagina(string ruta) {
-  queue<archivo> copiaPaginasEliminadas;
-  archivo pagina = getArchivoDeRuta(ruta);
-
-  for (int i = 0; !paginasEliminadas.empty(); i++) {
-    archivo pagina = paginasEliminadas.front();
-    paginasEliminadas.pop();
-    if (pagina.ruta == ruta) {
-      archivos.push_back(pagina);
-    } else if (pagina.ruta != ruta) {
-      copiaPaginasEliminadas.push(pagina);
-    }
-  }
-  copiarQueue(copiaPaginasEliminadas);
+void Favoritos::restaurarPagina() {
+  archivos.push_back(paginasEliminadas.front());
+  paginasEliminadas.pop();
 }
 
 archivo Favoritos::getArchivoDeRuta(
@@ -239,4 +226,16 @@ bool Favoritos::hayPaginasEliminadas() {
     return true;
   else
     return false;
+}
+
+bool Favoritos::existePagina(string nombre) {
+  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
+       iteradorArchivo != archivos.end(); iteradorArchivo++) {
+
+    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
+    if ((esPagina(elementoArchivo)) && (iteradorArchivo->nombre == nombre)) {
+      return true;
+    }
+  }
+  return false;
 }

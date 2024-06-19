@@ -47,7 +47,6 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
     switch (opt) {
     case 1: {
       printTitle("PAGINA NUEVA");
-      // cin.ignore();
       string url = getText("Ingrese la URL");
       navegador->irNuevaPagina(url);
       break;
@@ -68,15 +67,19 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
         printHistorial(navegador->historial.getHistorial());
       } else
         cout << "Vacío" << endl;
-      cin.get();
       pause();
       break;
     case 5: {
       printTitle("GUARDAR FAVORITO");
       cout << "--> " + navegador->getPaginaActual() << endl << endl;
-      // cin.ignore();
       string nombrePagina = getText("Ingrese el nombre");
-      favoritos->guardarPagina(nombrePagina, navegador->getPaginaActual());
+      if (!favoritos->existePagina(nombrePagina)) {
+        favoritos->guardarPagina(nombrePagina, navegador->getPaginaActual());
+      } else {
+        cout << RED << "\nYa existe una página en favoritos bajo ese nombre."
+             << RESET << endl;
+        pause();
+      }
       break;
     }
     case 6: {
@@ -135,9 +138,8 @@ void Interfaz::menuFavoritos(Favoritos *favoritos, Navegador *navegador) {
       break;
     }
     case 6: {
-      if (favoritos->hayPaginasEliminadas()) {
-        restaurarPagina(favoritos);
-      }
+      if (favoritos->hayPaginasEliminadas())
+        favoritos->restaurarPagina();
       break;
     }
     case 7: {
@@ -229,23 +231,9 @@ void Interfaz::eliminarCarpeta(Favoritos *favoritos) {
     inputIncorrecto();
 }
 
-void Interfaz::restaurarPagina(Favoritos *favoritos) {
-  printTitle("RESTAURAR PAGINA");
-  int elementos = printPaginasEliminadas(favoritos->getPaginasEliminadas());
-  cout << "----------------------------------" << endl;
-  cout << "Seleccione la pagina a restaurar" << endl;
-  int indice = getInput(elementos);
-  if (indice != 0) {
-    string ruta = favoritos->getRutaPaginaEliminada(indice);
-    favoritos->restaurarPagina(ruta);
-  } else
-    inputIncorrecto();
-}
-
 void Interfaz::paginasEliminadas(Favoritos *favoritos) {
   printTitle("ULTIMAS PAGINAS ELIMINADAS");
   printPaginasEliminadas(favoritos->getPaginasEliminadas());
-  // cin.get();
   pause();
 }
 

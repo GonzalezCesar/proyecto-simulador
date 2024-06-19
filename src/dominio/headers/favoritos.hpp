@@ -25,7 +25,7 @@ public:
   void guardarPagina(string nombre, string url);
   void crearCarpeta(string nombre);
   void modificarRutaPagina(string pagina, string rutaCarpeta);
-  void restaurarPagina(string ruta);
+  void restaurarPagina();
   bool existeCarpeta(string ruta);
 
   list<archivo> getArchivos();
@@ -38,6 +38,7 @@ public:
   string getRutaPagina(int indice);
   bool hayPaginas();
   bool hayCarpetas();
+  bool existePagina(string nombre);
   bool hayPaginasEliminadas();
 
   void eliminarPagina(string ruta, bool eliminadoPermanente);
