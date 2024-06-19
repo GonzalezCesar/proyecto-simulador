@@ -26,26 +26,23 @@ public:
   void crearCarpeta(string nombre);
   void modificarRutaPagina(string pagina, string rutaCarpeta);
   void restaurarPagina(string ruta);
-  list<archivo> *getArchivos();
+  bool existeCarpeta(string ruta);
+
+  list<archivo> getArchivos();
+  queue<archivo> getPaginasEliminadas();
+  string getCarpetaPadre(string ruta);
   archivo getArchivoDeRuta(string ruta);
+  archivo getCarpeta(string ruta);
+  string getPaginaURL(string paginaRuta);
+  string getRutaCarpeta(int indice);
+  string getRutaPagina(int indice);
+  bool hayPaginas();
+  bool hayCarpetas();
+  bool hayPaginasEliminadas();
 
   void eliminarPagina(string ruta, bool eliminadoPermanente);
   void eliminarArchivo(string ruta);
   void eliminarContenidoEnCarpeta(string ruta);
   string getRutaPaginaEliminada(int indice);
-  // Mudar luego ---------------------
-  void printArchivoNumerado(archivo a, int numero);
-  void printFavoritos();
-  void printArchivo(archivo a);
-  void printCarpetas();
-  void printPaginas();
-  void printContenidoEnCarpeta(string ruta);
-  void printPaginasEliminadas();
-  // ---------------------------------
-  bool existeCarpeta(string ruta);
-  archivo getCarpeta(string ruta);
-  string getPaginaURL(string paginaRuta);
-  string getRutaCarpeta(int indice);
-  string getRutaPagina(int indice);
 };
 #endif // !FAVORITOS FAVORITOS

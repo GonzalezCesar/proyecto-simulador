@@ -11,10 +11,12 @@ using std::vector;
 
 class ManejadorHTML {
 private:
-  list<archivo> *archivos;
+  list<archivo> archivos;
+  string favoritosHTML;
 
 public:
-  void setArchivos(list<archivo> &archivos);
+  void unirHTML();
+  void setArchivos(list<archivo> archivos);
   string getHTML();
   string generarListasHTML();
   string formatearCarpeta(archivo carpeta);

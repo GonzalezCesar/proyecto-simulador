@@ -18,13 +18,12 @@ public:
   Historial(list<ItemHistorial> paginas);
   void agregarPagina(string url);
   void setHistorial(list<ItemHistorial> paginas);
-  string getItemFormateado(ItemHistorial pagina);
-  void printHistorial();
   void addTesting(ItemHistorial pagina);
   list<ItemHistorial>::iterator getInicioHistorial();
   list<ItemHistorial>::iterator getFinalHistorial();
   bool estaVacio();
   int getCantidadDePaginas();
+  list<ItemHistorial> getHistorial();
   ~Historial();
 };
 

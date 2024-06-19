@@ -12,7 +12,7 @@ git clone https://github.com/GonzalezCesar/proyecto-simulador.git
 1. Estando en el directorio del repositorio, cambiar al directorio `test`.
 
 ```sh
-cd test
+cd build
 ```
 
 2. Compilar
@@ -28,8 +28,12 @@ Alternativas:
 make navc
 ```
 ```sh
+MinGW32-make nav
+```
+```sh
 MinGW32-make navc
 ```
+
 ## Roadmap
 
 - [x] Historial.
@@ -47,8 +51,8 @@ MinGW32-make navc
     - [x] Recuperación de los últimos 5 favoritos borrados.
 	- [x] Exportar favoritos a un archivo html.
     - [x] Navegar hacia una página
-- [ ] Interfaz de línea de comandos.
-- [ ] Validaciones.
+- [x] Interfaz de línea de comandos.
+- [x] Validaciones.
 
 
 

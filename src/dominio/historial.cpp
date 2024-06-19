@@ -13,6 +13,9 @@ Historial::Historial() {}
 Historial::Historial(list<ItemHistorial> paginas) {
   paginas_registradas = paginas;
 }
+
+list<ItemHistorial> Historial::getHistorial() { return paginas_registradas; }
+
 Historial::~Historial() {}
 
 void Historial::agregarPagina(string url) {
@@ -25,28 +28,6 @@ void Historial::agregarPagina(string url) {
 void Historial::setHistorial(list<ItemHistorial> paginas) {
   paginas_registradas = paginas;
 }
-string Historial::getItemFormateado(ItemHistorial pagina) {
-  return pagina.fecha[horaYMinutos] + " - " + pagina.url;
-}
-
-void Historial::printHistorial() {
-  list<ItemHistorial>::iterator pagina;
-  vector<string> fechaActual = paginas_registradas.begin()->fecha;
-  string cabecera = getCabeceraFecha(fechaActual);
-  cout << cabecera << endl;
-
-  for (auto const &pagina : paginas_registradas) {
-    if (fechasIguales(fechaActual, pagina.fecha))
-      cout << getItemFormateado(pagina) << endl;
-    else {
-      string cabecera = getCabeceraFecha(pagina.fecha);
-      fechaActual = pagina.fecha;
-      cout << cabecera << endl;
-      cout << getItemFormateado(pagina) << endl;
-    }
-  }
-}
-
 void Historial::addTesting(ItemHistorial pagina) { // Ignorar, remover luego
   paginas_registradas.push_front(pagina);
 }

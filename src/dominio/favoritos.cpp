@@ -23,7 +23,7 @@ void Favoritos::crearCarpeta(string ruta) {
   archivos.push_front(nuevaCarpeta);
 }
 
-list<archivo> *Favoritos::getArchivos() { return &archivos; }
+list<archivo> Favoritos::getArchivos() { return archivos; }
 
 void Favoritos::guardarPagina(string nombre, string url) {
   archivo nuevaPagina;
@@ -31,12 +31,6 @@ void Favoritos::guardarPagina(string nombre, string url) {
   nuevaPagina.nombre = nombre;
   nuevaPagina.ruta = nombre;
   archivos.push_back(nuevaPagina);
-}
-
-void Favoritos::printFavoritos() {
-  for (auto archivo : archivos) {
-    printArchivo(archivo);
-  }
 }
 
 void Favoritos::modificarRutaPagina(string pagina, string rutaCarpeta) {
@@ -48,6 +42,17 @@ void Favoritos::modificarRutaPagina(string pagina, string rutaCarpeta) {
       break;
     }
   }
+}
+
+string Favoritos::getCarpetaPadre(string ruta) {
+  vector<string> rutaSegmentada = split(ruta, '/');
+  string rutaCarpetaPadre = rutaSegmentada[0];
+  for (int i = 0; i < rutaSegmentada.size() - 1; i++) {
+    rutaCarpetaPadre += rutaSegmentada[i];
+    if (i + 1 != rutaSegmentada.size() - 1)
+      rutaCarpetaPadre += '/';
+  }
+  return rutaCarpetaPadre;
 }
 
 bool Favoritos::existeCarpeta(string ruta) {
@@ -81,15 +86,6 @@ void Favoritos::copiarQueue(queue<archivo> copia) {
     copia.pop();
   }
 }
-//--------------------------------------------Remover luego
-void Favoritos::printPaginasEliminadas() {
-  queue<archivo> copiaPaginasEliminadas = paginasEliminadas;
-  for (int i = 0; i < paginasEliminadas.size(); i++) {
-    cout << i + 1 << ". " << copiaPaginasEliminadas.front().nombre << endl;
-    copiaPaginasEliminadas.pop();
-  }
-}
-
 void Favoritos::actualizarPaginasBorradas(archivo pagina) {
   paginasEliminadas.push(pagina);
   if (paginasEliminadas.size() == 6) {
@@ -126,64 +122,6 @@ archivo Favoritos::getArchivoDeRuta(
   }
   return a;
 }
-
-//-----------------------------------------------------------------------------INTERFAZ
-void Favoritos::printContenidoEnCarpeta(string ruta) {
-  vector<string> rutaSegmentada = split(ruta, '/');
-
-  string nombreCarpeta = rutaSegmentada[rutaSegmentada.size() - 1];
-  for (list<archivo>::iterator archivo = archivos.begin();
-       archivo != archivos.end(); archivo++) {
-
-    if ((esDescendiente(nombreCarpeta, archivo->ruta)) &&
-        (archivo->ruta != ruta))
-
-      printArchivo(getArchivoDeIterador(archivo));
-  }
-}
-
-void Favoritos::printCarpetas() {
-  int conteo = 1;
-  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
-       iteradorArchivo != archivos.end(); iteradorArchivo++) {
-    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
-
-    if (esCarpeta(elementoArchivo)) {
-      printArchivoNumerado(elementoArchivo, conteo);
-      conteo++;
-    }
-  }
-};
-
-void Favoritos::printPaginas() {
-  int conteo = 1;
-
-  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
-       iteradorArchivo != archivos.end(); iteradorArchivo++) {
-
-    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
-
-    if (esPagina(elementoArchivo)) {
-      printArchivoNumerado(elementoArchivo, conteo);
-      conteo++;
-    }
-  }
-};
-
-void Favoritos::printArchivo(archivo a) {
-  if (esCarpeta(a))
-    cout << " + " << a.ruta << endl;
-  else
-    cout << a.ruta << endl;
-}
-void Favoritos::printArchivoNumerado(archivo a, int numero) {
-  if (esCarpeta(a))
-    cout << numero << ". + " << a.ruta << endl;
-  else
-    cout << numero << ". " << a.ruta << endl;
-}
-
-//_---------------------------------------------------------------------------------
 
 void Favoritos::eliminarContenidoEnCarpeta(string ruta) {
   vector<string> rutaSegmentada = split(ruta, '/');
@@ -269,4 +207,36 @@ string Favoritos::getRutaPaginaEliminada(int indice) {
     copiaEliminados.pop();
   }
   return "";
+}
+
+queue<archivo> Favoritos::getPaginasEliminadas() { return paginasEliminadas; }
+
+bool Favoritos::hayPaginas() {
+  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
+       iteradorArchivo != archivos.end(); iteradorArchivo++) {
+    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
+    if (esPagina(elementoArchivo)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Favoritos::hayCarpetas() {
+  for (list<archivo>::iterator iteradorArchivo = archivos.begin();
+       iteradorArchivo != archivos.end(); iteradorArchivo++) {
+    archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
+
+    if (esCarpeta(elementoArchivo)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Favoritos::hayPaginasEliminadas() {
+  if (!paginasEliminadas.empty())
+    return true;
+  else
+    return false;
 }

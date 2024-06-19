@@ -1,5 +1,5 @@
-#include "../dominio/headers/utilidades.hpp"
 #include "headers/manejadorHTML.hpp"
+#include "../dominio/headers/utilidades.hpp"
 #include <iostream>
 
 using std::cout;
@@ -11,17 +11,16 @@ string header = "<!DOCTYPE html>\n"
                 "    <title>Favoritos</title>\n</head>\n<body>\n"
                 "    <h1>Favoritos</h1>\n";
 
-void printHeader() { std::cout << header; }
+string ManejadorHTML::getHTML() { return favoritosHTML; }
 
-string ManejadorHTML::getHTML() {
+void ManejadorHTML::unirHTML() {
   string listas = generarListasHTML();
   string cierre = "\n</body>\n</html>";
-  string html = header + listas + cierre;
-  return html;
+  favoritosHTML = header + listas + cierre;
 }
 
-void ManejadorHTML::setArchivos(list<archivo> &listaArchivos) {
-  archivos = &listaArchivos;
+void ManejadorHTML::setArchivos(list<archivo> listaArchivos) {
+  archivos = listaArchivos;
 }
 
 string ManejadorHTML::generarListasHTML() {
@@ -68,7 +67,7 @@ vector<archivo>
 ManejadorHTML::getOrdenadoPorNivel() { // Ordena las carpetas y páginas de menor
                                        // a mayor nivel
   vector<archivo> archivosOrdenados;
-  list<archivo> listaArchivos = *archivos;
+  list<archivo> listaArchivos = archivos;
   vector<int> niveles = getNivelesUnicos(listaArchivos);
 
   for (int i = 0; i < niveles.size(); i++) {
