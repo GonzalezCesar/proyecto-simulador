@@ -22,6 +22,9 @@ private:
 
 public:
   Favoritos();
+  void setArchivos(list<archivo> favoritos);
+  void setPaginasEliminadas(queue<archivo> favoritos);
+
   void guardarPagina(string nombre, string url);
   void crearCarpeta(string nombre);
   void modificarRutaPagina(string pagina, string rutaCarpeta);

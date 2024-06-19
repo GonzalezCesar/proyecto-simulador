@@ -75,6 +75,8 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
       string nombrePagina = getText("Ingrese el nombre");
       if (!favoritos->existePagina(nombrePagina)) {
         favoritos->guardarPagina(nombrePagina, navegador->getPaginaActual());
+        string csv = generarCSVArchivos(favoritos->getArchivos());
+        guardarEnFichero("favoritos.csv", csv);
       } else {
         cout << RED << "\nYa existe una página en favoritos bajo ese nombre."
              << RESET << endl;
@@ -138,8 +140,14 @@ void Interfaz::menuFavoritos(Favoritos *favoritos, Navegador *navegador) {
       break;
     }
     case 6: {
-      if (favoritos->hayPaginasEliminadas())
+      if (favoritos->hayPaginasEliminadas()) {
         favoritos->restaurarPagina();
+        string csv1 = generarCSVArchivos(favoritos->getArchivos());
+        guardarEnFichero("favoritos.csv", csv1);
+        string csv2 = generarCSVArchivos(favoritos->getPaginasEliminadas());
+        guardarEnFichero("favoritos_eliminados_temp.csv", csv2);
+      }
+
       break;
     }
     case 7: {
@@ -163,9 +171,9 @@ void Interfaz::creacionDeCarpeta(Favoritos *favoritos) {
   cout << "Para crear subcarpetas:" << endl;
   cout << "--> ruta_de_carpeta/nombre_de_carpeta_nueva" << endl;
   printCarpetas(favoritos->getArchivos());
-  // cin.ignore();
-
   favoritos->crearCarpeta(getText("Introduzca el nombre de la carpeta"));
+  string csv = generarCSVArchivos(favoritos->getArchivos());
+  guardarEnFichero("favoritos.csv", csv);
 }
 void Interfaz::organizacionDePagina(Favoritos *favoritos) {
   printTitle("ORGANIZACIÓN DE PÁGINA");
@@ -173,30 +181,39 @@ void Interfaz::organizacionDePagina(Favoritos *favoritos) {
   cout << endl;
   cout << "Seleccione la pagina a organizar." << endl;
   int indice = getInput(elementos);
+
   if (indice != 0) {
     string ruta = favoritos->getRutaPagina(indice);
     string nombre = favoritos->getArchivoDeRuta(ruta).nombre;
     int elementos2 = printCarpetas(favoritos->getArchivos());
+
     cout << endl;
     cout << "Seleccione la carpeta contenedora." << endl;
+
     int indice2 = getInput(elementos2);
     string ruta2 = favoritos->getRutaCarpeta(indice2);
+
     favoritos->modificarRutaPagina(nombre, ruta2);
+    string csv = generarCSVArchivos(favoritos->getArchivos());
+    guardarEnFichero("favoritos.csv", csv);
   } else
     inputIncorrecto();
 }
 
 bool Interfaz::navegacionAFavorito(Favoritos *favoritos, Navegador *navegador) {
   printTitle("NAVEGAR A FAVORITO");
+
   int elementos = printPaginas(favoritos->getArchivos());
   cout << "Seleccione la pagina." << endl;
-  // cin.ignore();
   int opcion = getInput(elementos);
+
   if (opcion != 0) {
     string ruta = favoritos->getRutaPagina(opcion);
     string url = favoritos->getPaginaURL(ruta);
+
     navegador->irNuevaPagina(url);
     return true;
+
   } else {
     inputIncorrecto();
     return false;
@@ -208,9 +225,14 @@ void Interfaz::eliminarPagina(Favoritos *favoritos) {
   int elementos = printPaginas(favoritos->getArchivos());
   cout << "Seleccione la pagina a eliminar" << endl;
   int indice = getInput(elementos);
+
   if (indice != 0) {
     string ruta = favoritos->getRutaPagina(indice);
     favoritos->eliminarPagina(ruta, false);
+    string csv1 = generarCSVArchivos(favoritos->getArchivos());
+    guardarEnFichero("favoritos.csv", csv1);
+    string csv2 = generarCSVArchivos(favoritos->getPaginasEliminadas());
+    guardarEnFichero("favoritos_eliminados_temp.csv", csv2);
   } else
     inputIncorrecto();
 }
@@ -218,15 +240,19 @@ void Interfaz::eliminarPagina(Favoritos *favoritos) {
 void Interfaz::eliminarCarpeta(Favoritos *favoritos) {
   printTitle("ELIMINAR CARPETA");
   int elementos = printCarpetas(favoritos->getArchivos());
-  cout << "elementos: " << elementos << endl;
   int indice = getInput(elementos);
+  cout << "elementos: " << elementos << endl;
   cout << "indice: " << elementos << endl;
+
   if (indice != 0) {
     string ruta = favoritos->getRutaCarpeta(indice);
     cout << "\nLos siguientes elementos serán borrados: " << endl;
     printContenidoEnCarpeta(favoritos->getArchivos(), ruta);
     pause();
     favoritos->eliminarContenidoEnCarpeta(ruta);
+    string csv = generarCSVArchivos(favoritos->getArchivos());
+    guardarEnFichero("favoritos.csv", csv);
+
   } else
     inputIncorrecto();
 }
@@ -322,8 +348,8 @@ int Interfaz::printCarpetas(list<archivo> archivos) {
     archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
 
     if (esCarpeta(elementoArchivo)) {
-      printArchivoNumerado(elementoArchivo, conteo);
       conteo++;
+      printArchivoNumerado(elementoArchivo, conteo);
     }
   }
   return conteo;
@@ -338,8 +364,8 @@ int Interfaz::printPaginas(list<archivo> archivos) {
     archivo elementoArchivo = getArchivoDeIterador(iteradorArchivo);
 
     if (esPagina(elementoArchivo)) {
-      printArchivoNumerado(elementoArchivo, conteo + 1);
       conteo++;
+      printArchivoNumerado(elementoArchivo, conteo);
     }
   }
   return conteo;

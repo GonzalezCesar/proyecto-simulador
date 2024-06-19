@@ -77,7 +77,7 @@ void Favoritos::eliminarPagina(string ruta, bool eliminadoPermanente) {
   }
 }
 
-void Favoritos::copiarQueue(queue<archivo> copia) {
+void Favoritos::copiarQueue(queue<archivo> copia) { // No se está utilizando(?)
   int size = copia.size();
   for (int i = 0; !copia.empty(); i++) {
     paginasEliminadas.push(copia.front());
@@ -238,4 +238,9 @@ bool Favoritos::existePagina(string nombre) {
     }
   }
   return false;
+}
+
+void Favoritos::setArchivos(list<archivo> favoritos) { archivos = favoritos; }
+void Favoritos::setPaginasEliminadas(queue<archivo> paginas) {
+  paginasEliminadas = paginas;
 }
