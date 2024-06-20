@@ -66,7 +66,7 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
       if (!navegador->historial.estaVacio()) {
         printHistorial(navegador->historial.getHistorial());
       } else
-        cout << "Vacío" << endl;
+        cout << "Vacio" << endl;
       pause();
       break;
     case 5: {
@@ -78,7 +78,7 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
         string csv = generarCSVArchivos(favoritos->getArchivos());
         guardarEnFichero("favoritos.csv", csv);
       } else {
-        cout << RED << "\nYa existe una página en favoritos bajo ese nombre."
+        cout << RED << "\nYa existe una pagina en favoritos bajo ese nombre."
              << RESET << endl;
         pause();
       }
@@ -167,16 +167,19 @@ void Interfaz::menuFavoritos(Favoritos *favoritos, Navegador *navegador) {
 //-------------------------------------------------------- OPERACIONES FAVORITOS
 
 void Interfaz::creacionDeCarpeta(Favoritos *favoritos) {
-  printTitle("CREACIÓN DE CARPETA");
-  cout << "Para crear subcarpetas:" << endl;
+  printTitle("CREACION DE CARPETA");
+  cout << "Nota: Para crear subcarpetas:" << endl;
   cout << "--> ruta_de_carpeta/nombre_de_carpeta_nueva" << endl;
+
   printCarpetas(favoritos->getArchivos());
   favoritos->crearCarpeta(getText("Introduzca el nombre de la carpeta"));
   string csv = generarCSVArchivos(favoritos->getArchivos());
   guardarEnFichero("favoritos.csv", csv);
 }
+
+//-----------------------------------------------------------------------Organizar Carpeta
 void Interfaz::organizacionDePagina(Favoritos *favoritos) {
-  printTitle("ORGANIZACIÓN DE PÁGINA");
+  printTitle("ORGANIZACION DE PAGINA");
   int elementos = printPaginas(favoritos->getArchivos());
   cout << endl;
   cout << "Seleccione la pagina a organizar." << endl;
@@ -200,6 +203,7 @@ void Interfaz::organizacionDePagina(Favoritos *favoritos) {
     inputIncorrecto();
 }
 
+//-----------------------------------------------------------------------Navegar a favorito
 bool Interfaz::navegacionAFavorito(Favoritos *favoritos, Navegador *navegador) {
   printTitle("NAVEGAR A FAVORITO");
 
@@ -220,6 +224,7 @@ bool Interfaz::navegacionAFavorito(Favoritos *favoritos, Navegador *navegador) {
   }
 }
 
+//-----------------------------------------------------------------------Eliminar Pagina
 void Interfaz::eliminarPagina(Favoritos *favoritos) {
   printTitle("ELIMINAR PAGINA");
   int elementos = printPaginas(favoritos->getArchivos());
@@ -236,7 +241,7 @@ void Interfaz::eliminarPagina(Favoritos *favoritos) {
   } else
     inputIncorrecto();
 }
-
+//-----------------------------------------------------------------------Eliminar Carpeta
 void Interfaz::eliminarCarpeta(Favoritos *favoritos) {
   printTitle("ELIMINAR CARPETA");
   int elementos = printCarpetas(favoritos->getArchivos());
@@ -244,7 +249,7 @@ void Interfaz::eliminarCarpeta(Favoritos *favoritos) {
 
   if (indice != 0) {
     string ruta = favoritos->getRutaCarpeta(indice);
-    cout << "\nLos siguientes elementos serán borrados: " << endl;
+    cout << "\nLos siguientes elementos seran borrados: " << endl;
     printContenidoEnCarpeta(favoritos->getArchivos(), ruta);
     pause();
     favoritos->eliminarContenidoEnCarpeta(ruta);
@@ -255,12 +260,14 @@ void Interfaz::eliminarCarpeta(Favoritos *favoritos) {
     inputIncorrecto();
 }
 
+//-----------------------------------------------------------------------Ver páginas eliminadas
 void Interfaz::paginasEliminadas(Favoritos *favoritos) {
   printTitle("ULTIMAS PAGINAS ELIMINADAS");
   printPaginasEliminadas(favoritos->getPaginasEliminadas());
   pause();
 }
 
+//-----------------------------------------------------------------------Generar HTML
 void Interfaz::generarHTML(Favoritos *favoritos) {
   ManejadorHTML h;
   printTitle("GENERADO DE HTML");
@@ -320,7 +327,7 @@ void Interfaz::printMenuFavoritos(Favoritos *b, bool hayPaginas,
   cout << color1 << "4. Eliminar pagina." << RESET << endl;
   cout << color2 << "5. Eliminar carpeta." << RESET << endl;
   cout << color3 << "6. Restaurar favorito." << RESET << endl;
-  cout << "7. Ver últimos favoritos eliminados." << endl;
+  cout << "7. Ver ultimos favoritos eliminados." << endl;
   cout << "8. Generar HTML." << endl;
   cout << "9. Salir." << endl;
 }
