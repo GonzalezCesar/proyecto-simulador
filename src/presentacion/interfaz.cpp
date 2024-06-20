@@ -33,7 +33,7 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
   navegador->setHome();
   int opt = 0;
   while (opt != 7) {
-    system("clear");
+    system("cls");
     printTitle(navegador->getPaginaActual());
     bool back = navegador->hayPaginaAnterior();
     bool next = navegador->hayPaginaSiguiente();
@@ -43,7 +43,7 @@ void Interfaz::menu(Navegador *navegador, Favoritos *favoritos) {
     if (opt == 0) {
       inputIncorrecto();
     }
-    system("clear");
+    system("cls");
     switch (opt) {
     case 1: {
       printTitle("PAGINA NUEVA");
@@ -98,7 +98,7 @@ void Interfaz::menuFavoritos(Favoritos *favoritos, Navegador *navegador) {
   int opt = 0;
 
   while (opt != 9) {
-    system("clear");
+    system("cls");
     printTitle("DIRECTORIOS");
     printFavoritos(favoritos->getArchivos());
     cout << "--------------------------------" << endl;
@@ -108,7 +108,7 @@ void Interfaz::menuFavoritos(Favoritos *favoritos, Navegador *navegador) {
     cout << endl;
     opt = getInput(9);
 
-    system("clear");
+    system("cls");
     switch (opt) {
     case 1: {
       if (favoritos->hayPaginas()) {

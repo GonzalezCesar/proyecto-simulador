@@ -5,3 +5,4 @@ CMakeLists.txt
 favoritos_navegador.html
 favoritos.csv
 favoritos_eliminados_temp.csv
+.vscode

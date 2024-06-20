@@ -23,9 +23,11 @@ void ManejadorHTML::setArchivos(list<archivo> listaArchivos) {
   archivos = listaArchivos;
 }
 
-string ManejadorHTML::generarListasHTML() { // Restorna un strings con las
-                                            // listas de favoritos en HTML
-                                            // (únicamente las listas en HTML)
+// Restorna un strings con las
+// listas de favoritos en HTML
+// (únicamente las listas en HTML)
+
+string ManejadorHTML::generarListasHTML() { 
   vector<archivo> archivosOrdenados = getOrdenadoPorNivel();
   string file;
   for (auto iteradorArchivo : archivosOrdenados) {
@@ -41,9 +43,10 @@ string ManejadorHTML::generarListasHTML() { // Restorna un strings con las
   return file;
 }
 
-string ManejadorHTML::formatearCarpeta(
-    archivo carpeta) { // Formatea un struct archivo a lista HTML, como es una
-                       // carpeta contenrá otros elementos
+// Formatea un struct archivo a lista HTML, como es una
+// carpeta contenrá otros elementos
+
+string ManejadorHTML::formatearCarpeta(archivo carpeta) { 
   int nivel = getNivel(carpeta.ruta, '/');
   string identacion = getNivelado(nivel);
   string comentario = crearComentario(carpeta.ruta);
@@ -53,10 +56,11 @@ string ManejadorHTML::formatearCarpeta(
   return formatoCarpeta;
 }
 
+// Formatea un struct archivo a HTML, es elemento de
+// alguna carpeta
+
 string ManejadorHTML::formatearPagina(
-    archivo pagina) { // Formatea un struct archivo a HTML, es elemento de
-                      // alguna carpeta
-  int nivel = getNivel(pagina.ruta, '/');
+    archivo pagina) {  int nivel = getNivel(pagina.ruta, '/');
   string identacion = getNivelado(nivel);
   string url = split(pagina.tipo, '-')[1];
   string formatoPagina = identacion + "<li>" + "<a href=" + url + ">" +
@@ -69,9 +73,10 @@ string ManejadorHTML::crearComentario(string comentario) {
   return comentario;
 }
 
-vector<archivo>
-ManejadorHTML::getOrdenadoPorNivel() { // Ordena las carpetas y páginas de menor
-                                       // a mayor nivel
+// Ordena las carpetas y páginas de menor
+// a mayor nivel
+
+vector<archivo> ManejadorHTML::getOrdenadoPorNivel() {  
   vector<archivo> archivosOrdenados;
   list<archivo> listaArchivos = archivos;
   vector<int> niveles = getNivelesUnicos(listaArchivos);
@@ -110,20 +115,25 @@ string ManejadorHTML::removerIdentacion(string linea) {
   return result;
 }
 
-void ManejadorHTML::insertarEnRuta(
-    string &html, string elemento,
-    string
-        ruta) { // Inserta el elemento de favoritos en la línea que corresponde
+
+
+// Inserta el elemento de favoritos en la línea del HTML que corresponde
+
+void ManejadorHTML::insertarEnRuta(string &html, string elemento,string ruta) { 
+
   bool check = false;
   vector<string> lineasHTML = getLineas(html);
+
   if (lineasHTML.size() == 0) {
     html += elemento;
     return;
   }
   for (int i = 0; i < lineasHTML.size(); i++) {
     string linea = removerIdentacion(lineasHTML[i]);
+
     if (contieneSubsString(lineasHTML[i], "<!--", ' ')) {
       string nombreCarpeta = getNombreDeArchivo(lineasHTML[i]);
+
       if (esDescendiente(nombreCarpeta, ruta)) {
         lineasHTML.insert(lineasHTML.begin() + i, elemento);
         check = true;
@@ -139,19 +149,22 @@ void ManejadorHTML::insertarEnRuta(
   }
 }
 
+// Extrae el nombre de una carpeta apartir de un
+// comentario HTML
+
 string ManejadorHTML::getNombreDeArchivo(
-    string comentario) { // Extrae el nombre de una carpeta apartir de un
-                         // comentario HTML
-  string rutaPrevia = getRutaDeComentario(comentario);
+    string comentario) {   string rutaPrevia = getRutaDeComentario(comentario);
   vector<string> comentarioSegmentado = split(rutaPrevia, '/');
   int size = comentarioSegmentado.size();
   string nombre = comentarioSegmentado[size - 1];
   return nombre;
 }
 
-string ManejadorHTML::getRutaDeComentario(
-    string comentario) { // Remueve la simbología del comentario en HTML y
-                         // retorna el contenido
+// Remueve la simbología del comentario en HTML y
+// retorna el contenido
+
+string ManejadorHTML::getRutaDeComentario(string comentario) { 
+
   string comentarioSinEspacios = removerIdentacion(comentario);
   vector<string> vectorComentario = split(comentarioSinEspacios, ' ');
   vectorComentario.pop_back();

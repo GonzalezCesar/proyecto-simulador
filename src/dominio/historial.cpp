@@ -28,20 +28,21 @@ void Historial::agregarPagina(string url) {
 void Historial::setHistorial(list<ItemHistorial> paginas) {
   paginas_registradas = paginas;
 }
-// void Historial::addTesting(ItemHistorial pagina) { // Ignorar, remover luego
-//   paginas_registradas.push_front(pagina);
-// }
+
+// Devuelve un iterador al principio de la
+// lista del historial
 
 list<ItemHistorial>::iterator
-Historial::getInicioHistorial() { // Devuelve un iterador al principio de la
-                                  // lista del historial
+Historial::getInicioHistorial() {   
   list<ItemHistorial>::iterator punteroAHistorial = paginas_registradas.begin();
   return punteroAHistorial;
 }
 
+// Devuelve un iterador al final de la lista
+// del historial
+
 list<ItemHistorial>::iterator
-Historial::getFinalHistorial() { // Devuelve un iterador al final de la lista
-                                 // del historial
+Historial::getFinalHistorial() {   
   list<ItemHistorial>::iterator punteroAHistorial = paginas_registradas.end();
   return punteroAHistorial;
 }

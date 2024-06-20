@@ -42,16 +42,6 @@ void Favoritos::modificarRutaPagina(string pagina, string rutaCarpeta) {
   }
 }
 
-// string Favoritos::getCarpetaPadre(string ruta) {
-//   vector<string> rutaSegmentada = split(ruta, '/');
-//   string rutaCarpetaPadre = rutaSegmentada[0];
-//   for (int i = 0; i < rutaSegmentada.size() - 1; i++) {
-//     rutaCarpetaPadre += rutaSegmentada[i];
-//     if (i + 1 != rutaSegmentada.size() - 1)
-//       rutaCarpetaPadre += '/';
-//   }
-//   return rutaCarpetaPadre;
-// }
 
 bool Favoritos::existeCarpeta(string ruta) {
   for (auto archivo : archivos) {
@@ -77,18 +67,11 @@ void Favoritos::eliminarPagina(string ruta, bool eliminadoPermanente) {
   }
 }
 
-// void Favoritos::copiarQueue(queue<archivo> copia) { // No se está
-// utilizando(?)
-//   int size = copia.size();
-//   for (int i = 0; !copia.empty(); i++) {
-//     paginasEliminadas.push(copia.front());
-//     copia.pop();
-//   }
-// }
+// Elimina permamnentemente la primera página
+// eliminada si hay 6 elementos en las páginas eliminadas.
 
 void Favoritos::actualizarPaginasBorradas(
-    archivo pagina) { // Elimina permamnentemente la primera página
-  // eliminada si hay 6 elementos en las páginas eliminadas.
+    archivo pagina) { 
   paginasEliminadas.push(pagina);
   if (paginasEliminadas.size() == 6) {
     paginasEliminadas.pop();
@@ -100,8 +83,9 @@ void Favoritos::restaurarPagina() {
   paginasEliminadas.pop();
 }
 
+// Retorna archivo a partir de una ruta
 archivo Favoritos::getArchivoDeRuta(
-    string ruta) { // Retorna archivo a partir de una ruta
+    string ruta) { 
   archivo a;
   for (auto archivo : archivos) {
     if (archivo.ruta == ruta) {
@@ -114,10 +98,11 @@ archivo Favoritos::getArchivoDeRuta(
   return a;
 }
 
+// Elimina permanentemente todo el contenido asociado a una
+// carpeta
+
 void Favoritos::eliminarContenidoEnCarpeta(
-    string ruta) { // Elimina permanentemente todo el contenido asociado a una
-                   // carpeta
-  vector<string> rutaSegmentada = split(ruta, '/');
+    string ruta) {   vector<string> rutaSegmentada = split(ruta, '/');
   string nombreCarpeta = rutaSegmentada[rutaSegmentada.size() - 1];
 
   auto iteradorArchivo = archivos.begin();

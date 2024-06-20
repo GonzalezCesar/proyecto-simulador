@@ -22,10 +22,11 @@ void guardarEnFichero(string nombreFichero, string contenido) {
 
 string archivoACSV(archivo a) { return a.ruta + "," + a.nombre + "," + a.tipo; }
 
-string generarCSVArchivos(
-    list<archivo> paginasEliminadas) { // Genera un string con el contenido a
-                                       // guardar en el csv, usado para guardar
-                                       // las páginas en favoritos
+// Genera un string con el contenido a
+// guardar en el csv, usado para guardar
+// las páginas en favoritos
+
+string generarCSVArchivos(list<archivo> paginasEliminadas) {  
   string csv;
   for (auto pagina : paginasEliminadas) {
     csv += archivoACSV(pagina) + "\n";
@@ -33,10 +34,11 @@ string generarCSVArchivos(
   return csv;
 }
 
-string generarCSVArchivos(
-    queue<archivo> paginasEliminadas) { // Genera un string con el contenido a
-                                        // guardar en el csv, utilizado para las
-                                        // páginas eliminadas
+// Genera un string con el contenido a
+// guardar en el csv, utilizado para las
+// páginas eliminadas
+
+string generarCSVArchivos(queue<archivo> paginasEliminadas) {   
   string csv;
   while (!paginasEliminadas.empty()) {
     csv += archivoACSV(paginasEliminadas.front()) + "\n";
@@ -45,13 +47,10 @@ string generarCSVArchivos(
   return csv;
 }
 
-void guardarFavoritos(list<archivo> paginas) {}
+// Carga los archivos de un fichero csv al programa
+// en una lista de tipo archivo
 
-string getLineaFichero();
-
-list<archivo> cargarCSVArchivos(
-    string nombreFichero) { // Carga los archivos de un fichero csv al programa
-                            // en una lista de tipo archivo
+list<archivo> cargarCSVArchivos(string nombreFichero) {   
   list<archivo> archivos;
   string linea;
   ifstream fichero(nombreFichero);
@@ -63,9 +62,10 @@ list<archivo> cargarCSVArchivos(
   return archivos;
 }
 
-queue<archivo>
-cargarPaginasEliminadas() { // Carga las páginas  eliminadas guardadas en el
-                            // .csv, retorna una cola con los elementos.
+// Carga las páginas  eliminadas guardadas en el
+// .csv, retorna una cola con los elementos.
+
+queue<archivo> cargarPaginasEliminadas() {   
   queue<archivo> archivos;
   string linea;
   ifstream fichero("favoritos_eliminados_temp.csv");
@@ -76,8 +76,9 @@ cargarPaginasEliminadas() { // Carga las páginas  eliminadas guardadas en el
   return archivos;
 }
 
-archivo deCSVAArchivo(
-    string lineaCSV) { // Convierte una entrada del csv a formato archivo
+// Convierte una entrada del csv a formato archivo
+
+archivo deCSVAArchivo(string lineaCSV) { 
   vector<string> lineaSegmentada = split(lineaCSV, ',');
   archivo a{lineaSegmentada[1], lineaSegmentada[0], lineaSegmentada[2]};
   return a;

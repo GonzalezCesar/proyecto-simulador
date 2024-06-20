@@ -13,11 +13,11 @@ string getTiempo() {
   return buffer;
 }
 
-vector<string>
-split(string texto,
-      char caracter) { // Retorna un vector de strings, cada string es un
-                       // fragmento resultante de separar el string original a
-                       // partir de un caracter especificado
+// Retorna un vector de strings, cada string es un
+// fragmento resultante de separar el string original a
+// partir de un caracter especificado
+
+vector<string> split(string texto, char caracter) { 
   vector<string> resultado;
   string palabra = "";
 
@@ -48,10 +48,11 @@ string getCabeceraFecha(vector<string> f) {
   return f[diaDeSemana] + " " + f[mes] + " " + f[dia] + ", " + f[year];
 }
 
-int getNivel(
-    string fuente,
-    char caracter) { // Profundidad a la que se encuentra una carpeta, ejemplo:
-  // una subcarpeta a/b/c tiene nivel 2.
+
+// Profundidad a la que se encuentra una carpeta, ejemplo:
+// una subcarpeta a/b/c tiene nivel 2.
+
+int getNivel(string fuente, char caracter) {
   int nivel = 0;
   for (auto i : fuente) {
     if (i == caracter)
@@ -60,9 +61,10 @@ int getNivel(
   return nivel;
 }
 
-void printNivelado(string texto,
-                   int nivel) { // Imprime en pantalla con identación de acuerdo
-                                // al nivel del archivo
+ // Imprime en pantalla con identación de acuerdo
+// al nivel del archivo
+
+void printNivelado(string texto,int nivel) {
   for (int i = 0; i < nivel; i++)
     cout << "    ";
   cout << texto;
@@ -74,11 +76,11 @@ string getNivelado(int nivel) {
   return nivelado;
 }
 
-bool contieneSubsString(
-    string fuente, string substring,
-    char caracter) { // Busca un substring a partir del string proporcionado
-  // verdadero: contiene el substring.
-  // falso: no lo contiene.
+// Busca un substring a partir del string proporcionado
+// verdadero: contiene el substring.
+// falso: no lo contiene.
+
+bool contieneSubsString(string fuente, string substring,char caracter) { 
   vector<string> vectorFuente = split(fuente, caracter);
   for (int i = 0; i < vectorFuente.size(); i++) {
     if (vectorFuente[i] == substring)
@@ -87,9 +89,11 @@ bool contieneSubsString(
   return false;
 }
 
-vector<string> getLineas(
-    string fuente) { // Retorna un vector de strings, resultante de dividir el
-                     // string original al encontrar el caracter de salto \n
+
+// Retorna un vector de strings, resultante de dividir el
+// string original al encontrar el caracter de salto \n
+
+vector<string> getLineas(string fuente) { 
   string linea;
   vector<string> lineas;
 
@@ -103,7 +107,10 @@ vector<string> getLineas(
   return lineas;
 }
 
-string vectorAString(vector<string> v) { // Convierte un vector a string
+
+// Convierte un vector a string
+
+string vectorAString(vector<string> v) { 
   string resultado;
   for (int i = 0; i < v.size(); i++) {
     resultado += i;
@@ -113,24 +120,29 @@ string vectorAString(vector<string> v) { // Convierte un vector a string
   return resultado;
 }
 
-string unirLineas(vector<string> lineas) { // Une un vector de strings
+
+// Une un vector de strings
+
+string unirLineas(vector<string> lineas) { 
   string resultado;
   for (int i = 0; i < lineas.size(); i++) {
     resultado += lineas[i];
   }
   return resultado;
 }
+// Retorna un struct archivo a partir de
+// un iterador de lista archivo
 
-archivo getArchivoDeIterador(
-    list<archivo>::iterator iterador) { // Retorna un struct archivo a partir de
-                                        // un iterador de lista archivo
+archivo getArchivoDeIterador(list<archivo>::iterator iterador) { 
+                                       
   archivo a{iterador->nombre, iterador->ruta, iterador->tipo};
   return a;
 }
+// Retorna un vector con los elementos
+// de una lista de archivos
 
-vector<archivo>
-getVector(list<archivo> listaArchivos) { // Retorna un vector con los elementos
-                                         // de una lista de archivos
+vector<archivo> getVector(list<archivo> listaArchivos) { 
+
   vector<archivo> vectorArchivos;
   for (auto i : listaArchivos) {
     vectorArchivos.push_back(i);
@@ -138,9 +150,11 @@ getVector(list<archivo> listaArchivos) { // Retorna un vector con los elementos
   return vectorArchivos;
 }
 
+// Retorna un vector con los niveles únicos de la
+// lista proporcionada, es decir sin duplicados
+
 vector<int> getNivelesUnicos(
-    list<archivo> archivos) { // Retorna un vector con los niveles únicos de la
-                              // lista proporcionada, es decir sin duplicados
+    list<archivo> archivos) {                               
   vector<archivo> vectorArchivos = getVector(archivos);
   vector<int> niveles = getNiveles(vectorArchivos);
   niveles = eliminarDuplicados(niveles);
@@ -156,9 +170,10 @@ vector<int> getNiveles(vector<archivo> vectorArchivos) {
   return niveles;
 }
 
-vector<int>
-eliminarDuplicados(vector<int> niveles) { // Elimina elementos duplicados de un
-                                          // vector (números solamente)
+// Elimina elementos duplicados de un
+// vector (números solamente)
+
+vector<int> eliminarDuplicados(vector<int> niveles) { 
   std::sort(niveles.begin(), niveles.end());
   vector<int>::iterator iteradorNiveles =
       std::unique(niveles.begin(), niveles.end());
@@ -166,11 +181,13 @@ eliminarDuplicados(vector<int> niveles) { // Elimina elementos duplicados de un
   return niveles;
 }
 
+// Verifica si un archivo desciende de
+// una carpeta especificada,
+// verdadero: es es descendiente
+// falso: no lo es
+
 bool esDescendiente(string nombreCarpetaPadre,
-                    string rutaArchivo) { // Verifica si un archivo desciende de
-                                          // una carpeta especificada,
-                                          // verdadero: es es descendiente
-                                          // falso: no lo es
+                    string rutaArchivo) { 
   vector<string> rutaSegmentada = split(rutaArchivo, '/');
   for (int i = rutaSegmentada.size() - 1; i > -1; i--) {
     if (rutaSegmentada[i] == nombreCarpetaPadre) {

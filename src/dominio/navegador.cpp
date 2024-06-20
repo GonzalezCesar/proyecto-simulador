@@ -15,9 +15,10 @@ void Navegador::irNuevaPagina(string url) {
   historial.agregarPagina(url);
   paginaActual = historial.getInicioHistorial();
 }
+// Establece el navegador en la página de inicio (no
+// afecta el historial)
 
-void Navegador::setHome() { // Establece el navegador en la página de inicio (no
-                            // afecta el historial)
+void Navegador::setHome() {   
   list<ItemHistorial> *l = new list<ItemHistorial>;
   ItemHistorial home;
   home.url = "Home";
@@ -26,26 +27,38 @@ void Navegador::setHome() { // Establece el navegador en la página de inicio (n
   paginaActual = l->begin();
 }
 
-bool Navegador::isHome() { // Confirma que el navegador se encuentra en la
-                           // página de inicio Verdadero: Sí, está en la página
-                           // de inicio.
-  if (paginaActual->url == "Home") // Falso:No, no está en la página de inicio.
+// Confirma que el navegador se encuentra en la
+// página de inicio Verdadero: Sí, está en la página
+// de inicio.
+// Falso:No, no está en la página de inicio.
+
+bool Navegador::isHome() {   
+  if (paginaActual->url == "Home") 
     return true;
   return false;
 }
 
-bool Navegador::hayPaginaSiguiente() { // Confirma si hay página a la que
-                                       // avanzar
-  if (paginaActual->url == "Home")     // Verdadero: Sí, las hay
-    return false;                      // Falso: No, no las hay
+// Confirma si hay página a la que
+// avanzar
+// Verdadero: Sí, las hay
+// Falso: No, no las hay
+
+bool Navegador::hayPaginaSiguiente() { 
+  if (paginaActual->url == "Home")     
+    return false;                      
   if (paginaActual != historial.getInicioHistorial())
     return true;
   return false;
 }
-bool Navegador::hayPaginaAnterior() { // Confirma si existe una página a la que
-                                      // volver
-  list<ItemHistorial>::iterator l = paginaActual; // Verdadero: Sí, las hay.
-  l++;                                            // Falso: No, no las hay.
+
+// Confirma si existe una página a la que
+// volver
+// Verdadero: Sí, las hay.
+// Falso: No, no las hay.
+
+bool Navegador::hayPaginaAnterior() { 
+  list<ItemHistorial>::iterator l = paginaActual;   
+  l++;                                            
   if (paginaActual->url == "Home")
     return false;
   if (l != historial.getFinalHistorial())
