@@ -1,13 +1,8 @@
 #include "datos/headers/manejadorFicheros.hpp"
 #include "dominio/headers/favoritos.hpp"
 #include "dominio/headers/navegador.hpp"
-#include "estructuras/archivo.hpp" //Remover
 #include "presentacion/headers/interfaz.hpp"
 #include <iostream>
-#include <list>
-
-using std::list;
-using std::queue;
 
 int main() {
   Navegador navegador;
