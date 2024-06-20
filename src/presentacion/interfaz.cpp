@@ -329,7 +329,7 @@ void Interfaz::printMenuFavoritos(Favoritos *b, bool hayPaginas,
   cout << color3 << "6. Restaurar favorito." << RESET << endl;
   cout << "7. Ver ultimos favoritos eliminados." << endl;
   cout << "8. Generar HTML." << endl;
-  cout << "9. Salir." << endl;
+  cout << "9. Volver." << endl;
 }
 
 void Interfaz::printContenidoEnCarpeta(list<archivo> archivos, string ruta) {
