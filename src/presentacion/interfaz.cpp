@@ -241,8 +241,6 @@ void Interfaz::eliminarCarpeta(Favoritos *favoritos) {
   printTitle("ELIMINAR CARPETA");
   int elementos = printCarpetas(favoritos->getArchivos());
   int indice = getInput(elementos);
-  cout << "elementos: " << elementos << endl;
-  cout << "indice: " << elementos << endl;
 
   if (indice != 0) {
     string ruta = favoritos->getRutaCarpeta(indice);
